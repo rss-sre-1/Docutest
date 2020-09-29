@@ -1,7 +1,7 @@
-package com.revature.controllers;
+package com.revature.docutest.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.services.SwaggerServices;
+import com.revature.docutest.services.SwaggerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;

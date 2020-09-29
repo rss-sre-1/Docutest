@@ -33,7 +33,7 @@ build/
 .vscode/
 
 ### JAVA Gitignore ###
-
+.checkstyle
 bin/
 #log folder
 logs/

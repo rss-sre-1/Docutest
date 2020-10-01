@@ -9,7 +9,7 @@ as well as can be retrieved at any point in the future
 
 The API sends back two objects, an aggregate summary and a 2D array containing each thread that was run during the test. Each row in the array represents a single request by a single thread and contains the following: [timestamp, latency, status code]. For example:
 
-```JSON
+```
 {
 	URI: google.com/whateverpath,
 	HTTPMethod: GET,
@@ -22,7 +22,7 @@ The API sends back two objects, an aggregate summary and a 2D array containing e
 },
 [
 	[1601564199, 10, 200],
-  [1601564202, 15, 200],
+  	[1601564202, 15, 200],
 	...
 ]
 ```

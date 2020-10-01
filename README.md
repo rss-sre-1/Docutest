@@ -10,13 +10,21 @@ as well as can be retrieved at any point in the future
 The API sends back two objects, an aggregate summary and a 2D array containing each thread that was run during the test. The aggregate object contains:
 
 URI: URI
+
 HTTPMethod: Request method
+
 ResponseAvg: Average latency in ms
+
 ResponsePercentile: 50th percentile latency in ms
+
 ResponseMax: Highest response time in ms
+
 FailCount: Number of 4XX/5XX responses
+
 SuccessFailPercentage: Percentage of 2XX responses to 4XX/5XX responses
+
 ReqPerSec: Total Nnmber of requests per second
+
 
 For the array, each row represents a single request by a single thread and contains the following: [timestamp, latency, status code]. For example:
 

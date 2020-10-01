@@ -14,44 +14,54 @@ Along with submitting a Swagger file, users must provide configuration parameter
 - Users must specify the duration of the load test which defines the period of time for which the test will be performed. 
 - Users must specify the number of loops/iterations which defines the number of times that a test case will be performed.
 
-# API Reponse
+## Test Result API Response
 
 The API sends back two objects for each URI/Method combination: an aggregate summary and a 2D array containing each thread that was run during the test. The aggregate object contains:
 
-URI: URI
+uri: URI
 
-HTTPMethod: Request method
+httpMethod: Request method
 
-ResponseAvg: Average latency in ms
+responseAvg: Average latency in ms
 
-ResponsePercentile: 50th percentile latency in ms
+response25Percentile: 25th percentile latency in ms
 
-ResponseMax: Highest response time in ms
+response50Percentile: 50th percentile latency in ms
 
-FailCount: Number of 4XX/5XX responses
+response75Percentile: 75th percentile latency in ms
 
-SuccessFailPercentage: Percentage of 2XX responses to 4XX/5XX responses
+responseMax: Highest response time in ms
 
-ReqPerSec: Total Nnmber of requests per second
+failCount: Number of 4XX/5XX responses
 
+successFailPercentage: Percentage of 2XX responses to 4XX/5XX responses
 
-For the array, each row represents a single request by a single thread and contains the following: [timestamp, latency, status code]. For example:
+reqPerSec: Total Number of requests per second
+
+dataReference: Link to the csv file with individual thread data
+
 
 ```
 {
-	URI: google.com/whateverpath,
-	HTTPMethod: GET,
-	ReponseAvg: 50,
-	ReponsePercentile: 50,
-	ReponseMax: 3000,
-	FailCount: 100,
-	SuccessFailPercentage: 50,
-	ReqPerSec: 533.6
-},
-[
-	[1601564199, 10, 200],
-  	[1601564202, 15, 200],
-	...
-]
+	uri: google.com/whateverpath,
+	httpMethod: GET,
+	responseAvg: 16,
+	response25Percentile: 7,
+	response50Percentile: 16,
+	response75Percentile: 29,
+	responseMax: 3000,
+	failCount: 100,
+	successFailPercentage: 50,
+	reqPerSec: 533.6,
+	dataReference: s3.fake-aws-website.com/yourdata.csv
+}
 ```
 
+For dataReference, each row represents a single request by a single thread and contains the following: [timestamp, latency, status code]. For example:
+|timestamp|latency|statusCode|
+|----------|---|---|
+|1601578125|16|200|
+|1601578127|15|200|
+|1601578130|16|200|
+|1601578131|12|400|
+...

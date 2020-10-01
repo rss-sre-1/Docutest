@@ -16,7 +16,7 @@ Along with submitting a Swagger file, users must provide configuration parameter
 
 # API Reponse
 
-The API sends back two objects, an aggregate summary and a 2D array containing each thread that was run during the test. The aggregate object contains:
+The API sends back two objects for each URI/Method combination: an aggregate summary and a 2D array containing each thread that was run during the test. The aggregate object contains:
 
 URI: URI
 

@@ -58,10 +58,10 @@ dataReference: Link to the csv file with individual thread data
 ```
 
 For dataReference, each row represents a single request by a single thread and contains the following: [timestamp, latency, status code]. For example:
-|timestamp|latency|statusCode|
-|----------|---|---|
-|1601578125|16|200|
-|1601578127|15|200|
-|1601578130|16|200|
-|1601578131|12|400|
+|timestamp|elapsed|responseCode|failureMessage|
+|----------|---|---|---|
+|1601578125|16|200||
+|1601578127|15|200||
+|1601578130|16|200||
+|1601578131|12|400|Error Message|
 ...

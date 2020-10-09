@@ -1,11 +1,14 @@
 package com.revature.controllers;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +28,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import com.revature.docutest.DocutestApplication;
 import com.revature.models.SwaggerSummary;
 import com.revature.models.SwaggerUploadResponse;
@@ -32,6 +36,7 @@ import com.revature.services.JMeterService;
 import com.revature.services.OASService;
 import com.revature.services.SwaggerSummaryService;
 import com.revature.templates.LoadTestConfig;
+import com.revature.templates.SwaggerSummaryDTO;
 
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
@@ -135,11 +140,36 @@ class SwaggerfileControllerTest {
         swaggerSummary.setTestPlanName("test");
         swaggerSummary.setThreads(10);
         
-        String jsonContent = new ObjectMapper().writeValueAsString(swaggerSummary);
         when(swaggerSummaryService.getById(Matchers.eq(1))).thenReturn(null);
         
         this.mockMvc.perform(MockMvcRequestBuilders.get("/swaggersummary/{id}", "1"))
                 .andExpect(status().isNotFound());
+    }
+    
+    @Test
+    void getAllSwaggerSummaries() throws Exception {
+        List<SwaggerSummaryDTO> swaggerSummaryDTOs = new ArrayList<>();
+        
+        SwaggerSummary swaggerSummary = new SwaggerSummary();
+        swaggerSummary.setDuration(10);
+        swaggerSummary.setFollowRedirects(true);
+        swaggerSummary.setId(1);
+        swaggerSummary.setLoops(-1);
+        swaggerSummary.setRampUp(2);
+        swaggerSummary.setResultsummaries(null);
+        swaggerSummary.setTestPlanName("test");
+        swaggerSummary.setThreads(10);
+
+        SwaggerSummaryDTO swaggerSummaryDto = new SwaggerSummaryDTO(swaggerSummary);
+        swaggerSummaryDTOs.add(swaggerSummaryDto);
+        
+        String jsonContent = new ObjectMapper().writeValueAsString(swaggerSummaryDTOs);
+        when(swaggerSummaryService.getAllSwaggerSummaries()).thenReturn(Lists.newArrayList(swaggerSummary));
+        when(swaggerSummaryService.convertSwaggerSummary(Lists.newArrayList(swaggerSummary))).thenReturn(swaggerSummaryDTOs);
+        
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/swaggersummary"))
+        .andExpect(status().isOk())
+        .andExpect(content().json(jsonContent));
     }
     
 }

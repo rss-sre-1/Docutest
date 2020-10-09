@@ -1,11 +1,14 @@
 package com.revature.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.revature.models.SwaggerSummary;
 import com.revature.models.SwaggerUploadResponse;
 import com.revature.repositories.SwaggerSummaryRepository;
 import com.revature.templates.LoadTestConfig;
+import com.revature.templates.SwaggerSummaryDTO;
 import io.swagger.models.HttpMethod;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
@@ -78,5 +81,16 @@ public class SwaggerSummaryService {
         return sur;
 
     }
-
+    
+    public List<SwaggerSummary> getAllSwaggerSummaries() {
+        return repository.findAll();
+    }
+    
+    public List<SwaggerSummaryDTO> convertSwaggerSummary(List<SwaggerSummary> swaggerSummaries) {
+        List<SwaggerSummaryDTO> swaggerSummaryDtos = new ArrayList<>();
+        for (SwaggerSummary s : swaggerSummaries) {
+            swaggerSummaryDtos.add(new SwaggerSummaryDTO(s));
+        }
+        return swaggerSummaryDtos;
+    }
 }

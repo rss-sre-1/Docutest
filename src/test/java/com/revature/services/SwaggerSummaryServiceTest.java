@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,8 +25,7 @@ import com.revature.models.SwaggerSummary;
 import com.revature.models.SwaggerUploadResponse;
 import com.revature.repositories.SwaggerSummaryRepository;
 import com.revature.templates.LoadTestConfig;
-
-import io.swagger.models.Swagger;
+import com.revature.templates.SwaggerSummaryDTO;
 
 @SpringBootTest(classes = DocutestApplication.class)
 @ContextConfiguration(classes = SwaggerSummaryService.class)
@@ -38,6 +40,9 @@ class SwaggerSummaryServiceTest {
     
     private SwaggerSummary swaggerSummary;
     private SwaggerSummary swaggerSummaryfail;
+    
+    List<SwaggerSummary> swaggerSummaries;
+    List<SwaggerSummaryDTO> swaggerSummariesDto;
 
     @BeforeAll
     static void setUpBeforeClass() throws Exception {
@@ -60,6 +65,14 @@ class SwaggerSummaryServiceTest {
         swaggerSummaryfail = new SwaggerSummary();
         swaggerSummaryfail.setId(2);
         
+        swaggerSummaries = new ArrayList<>();
+        swaggerSummaries.add(swaggerSummary);
+        swaggerSummaries.add(swaggerSummaryfail);
+        
+        swaggerSummariesDto = new ArrayList<>();
+        swaggerSummariesDto.add(new SwaggerSummaryDTO(swaggerSummary));
+        swaggerSummariesDto.add(new SwaggerSummaryDTO(swaggerSummaryfail));
+        
         ltcLoops = new LoadTestConfig();
         ltcLoops.setLoops(10);
         ltcLoops.setRampUp(2);
@@ -68,11 +81,11 @@ class SwaggerSummaryServiceTest {
         ltcLoops.setTestPlanName("Loop Test");
         
         ltcDuration = new LoadTestConfig();
-        ltcLoops.setLoops(-1);
-        ltcLoops.setRampUp(2);
-        ltcLoops.setThreads(10);
-        ltcLoops.setDuration(10);
-        ltcLoops.setTestPlanName("Duration Test");
+        ltcDuration.setLoops(-1);
+        ltcDuration.setRampUp(2);
+        ltcDuration.setThreads(10);
+        ltcDuration.setDuration(10);
+        ltcDuration.setTestPlanName("Duration Test");
         
         when(MockedDao.save(any(SwaggerSummary.class))).thenReturn(swaggerSummary);
         when(MockedDao.existsById(1)).thenReturn(false);
@@ -81,6 +94,8 @@ class SwaggerSummaryServiceTest {
         when(MockedDao.save(swaggerSummaryfail)).thenReturn(swaggerSummary);
         when(MockedDao.existsById(2)).thenReturn(true);
         when(MockedDao.findById(2)).thenReturn(null);
+        
+        when(MockedDao.findAll()).thenReturn(swaggerSummaries);
 
     }
 
@@ -123,11 +138,23 @@ class SwaggerSummaryServiceTest {
         SwaggerUploadResponse result = testInstance.uploadSwaggerfile(TestUtil.multi, ltcLoops);
         assertEquals("Docutest/swaggersummary/1", result.getResultRef());
     }
-    
+        
     @Test
     void uploadSwaggerfileSwaggerSummaryId() {
-        SwaggerUploadResponse result = testInstance.uploadSwaggerfile(TestUtil.multi, ltcLoops);
+        SwaggerUploadResponse result = testInstance.uploadSwaggerfile(TestUtil.multi, ltcDuration);
         assertEquals("Docutest/swaggersummary/1", result.getResultRef());
         assertEquals(1,result.getSwaggerSummaryId());
+    }
+    
+    @Test
+    void testGetAllSwaggerSummaries() {
+        List<SwaggerSummary> results = testInstance.getAllSwaggerSummaries();
+        assertEquals(swaggerSummaries, results);
+    }
+    
+    @Test
+    void testConvertSwaggerSummary() {
+        List<SwaggerSummaryDTO> results = testInstance.convertSwaggerSummary(swaggerSummaries);
+        assertEquals(swaggerSummariesDto, results);
     }
 }

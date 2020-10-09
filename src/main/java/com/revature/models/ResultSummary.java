@@ -46,19 +46,5 @@ public class ResultSummary {
         reqPerSec = logger.getReqPerSec();
         this.dataReference = dataReference;
     }
-    
-    public ResultSummary(JMeterResponseCollector logger) {
-        super();
-        this.uri = uri;
-        this.httpMethod = httpMethod;
-        responseAvg = logger.getResponseAvg();
-        response25Percentile = logger.getResponse25Percentile();
-        response50Percentile = logger.getResponse50Percentile();
-        response75Percentile = logger.getResponse75Percentile();
-        responseMax = logger.getResponseMax();
-        failCount = (logger.getNum4XX() + logger.getNum5XX());
-        successFailPercentage = logger.getsuccessFailPercentage();
-        reqPerSec = logger.getReqPerSec();
-    }
-    
+        
 }

@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,9 +27,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.when;
-
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -56,7 +55,8 @@ class JMeterServiceTest {
     @Mock
     private SwaggerSummaryService sss;
     
-    private static OASService adapter = new OASService(new JSONStringCreator());
+    @Autowired
+    private static OASService adapter;
 
     private SwaggerDocutest testSpecs;
     
@@ -207,11 +207,10 @@ class JMeterServiceTest {
         expected.clear();
         expected.add("/todos");
         expected.add("/todos/truncate");
-        expected.add("/todos/{id}"); // TODO needs to be changed once path var is implemented
+        expected.add("/todos/1"); 
         samplers = jm.createHTTPSamplerProxy(testSpecs);
 
         for (HTTPSamplerProxy sampler : samplers) {
-            System.out.println(sampler.getPath());
             assertTrue(expected.contains(sampler.getPath()));
         }
     }
@@ -281,7 +280,6 @@ class JMeterServiceTest {
             String bodyText = argsMap.get("");            
 
             if (!argsMap.isEmpty()) {
-                System.out.println(bodyText);
                 // argsMap returns a string with "null" if no valid values
                 assertNotEquals("null",bodyText);
             } else {

@@ -16,6 +16,7 @@ import com.revature.services.JMeterService;
 import com.revature.services.OASService;
 import com.revature.services.SwaggerSummaryService;
 import com.revature.templates.LoadTestConfig;
+import com.revature.templates.SwaggerSummaryDTO;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,15 @@ public class SwaggerfileController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(s);
+    }
+    
+    @GetMapping("/swaggersummary")
+    public ResponseEntity<List<SwaggerSummaryDTO>> getAllSwaggerSummaries() {
+        List<SwaggerSummary> swaggerSummaries = swaggerSummaryService.getAllSwaggerSummaries();
+        
+        List<SwaggerSummaryDTO> swaggerSummaryDtos = swaggerSummaryService.convertSwaggerSummary(swaggerSummaries);
+        
+        return ResponseEntity.ok(swaggerSummaryDtos);
     }
     
 }

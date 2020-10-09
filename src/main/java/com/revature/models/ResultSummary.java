@@ -46,5 +46,5 @@ public class ResultSummary {
         reqPerSec = logger.getReqPerSec();
         this.dataReference = dataReference;
     }
-    
+        
 }

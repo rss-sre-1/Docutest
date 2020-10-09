@@ -32,7 +32,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 
 import com.revature.docutest.DocutestApplication;
 import com.revature.docutest.TestUtil;
@@ -40,9 +39,6 @@ import com.revature.models.SwaggerDocutest;
 import com.revature.models.SwaggerSummary;
 import com.revature.templates.LoadTestConfig;
 
-import io.swagger.models.HttpMethod;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 

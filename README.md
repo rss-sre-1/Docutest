@@ -66,6 +66,6 @@ For dataReference, each row represents a single request by a single thread and c
 |1601578131|12|400|Error Message|
 ...
 
-## External Links:
+## External Links
 - Test Case Design: https://drive.google.com/file/d/1Jh1iYjdp2j4YR8yoAjYcUrd1arveYbNI/view?usp=sharing- 
 - Requirements Traceability Matrix: https://drive.google.com/file/d/1ckCViMN4p7jxq4tk50QlwTb5-qGwPsBw/view?usp=sharing

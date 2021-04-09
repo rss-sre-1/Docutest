@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docutest
+  namespace: docutest
+  labels:
+    app: docutest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: docutest
+  template:
+    metadata:
+      labels:
+        app: docutest
+    spec:
+      containers:
+      - name: docutest
+        image: eilonwy/docutest:latest
+        ports:
+        - containerPort: 8083
+        imagePullPolicy: Always
+        env:
+        - name: db_url
+          valueFrom:
+            secretKeyRef:
+              name: docutest-database
+              key: url
+        - name: postgres_username
+          valueFrom:
+            secretKeyRef:
+              name: docutest-database
+              key: username
+        - name: postgres_pw
+          valueFrom:
+            secretKeyRef:
+              name: docutest-database
+              key: password
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: docutest-s3
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: docutest-s3
+              key: AWS_SECRET_KEY

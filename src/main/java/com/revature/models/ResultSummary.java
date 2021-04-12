@@ -41,7 +41,7 @@ public class ResultSummary {
         response50Percentile = logger.getResponse50Percentile();
         response75Percentile = logger.getResponse75Percentile();
         responseMax = logger.getResponseMax();
-        failCount = (logger.getNum4XX() + logger.getNum5XX());
+        failCount = (logger.getNum5XX());
         successFailPercentage = logger.getsuccessFailPercentage();
         reqPerSec = logger.getReqPerSec();
     }
